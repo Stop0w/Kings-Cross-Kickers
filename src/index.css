@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(135deg, #13111C 0%, #1F1B2E 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+}
+
+.glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.glow-1 {
+  background: #7B2FFE;
+  top: -100px;
+  left: -100px;
+}
+
+.glow-2 {
+  background: #2E8DFF;
+  bottom: -100px;
+  right: -100px;
+}
+
+.chart-grid line {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.soccer-ball {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  opacity: 0.1;
+  animation: rotate 20s linear infinite, float 10s ease-in-out infinite;
+  z-index: -1;
+  right: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes rotate {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .soccer-ball {
+    width: 300px;
+    height: 300px;
+    right: -150px;
+  }
+}
