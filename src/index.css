@@ -3,78 +3,134 @@
 @tailwind utilities;
 
 body {
-  background: linear-gradient(135deg, #13111C 0%, #1F1B2E 100%);
+  background: #121212;
   min-height: 100vh;
-  color: white;
+}
+
+/* Wrapper for the page to apply a glow in the top-left corner */
+.page-wrapper {
+  position: relative;
+  overflow: hidden; /* Keeps the glow contained */
+}
+
+.page-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -20%; /* Glow positioned in the top-left corner */
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(218, 22, 52, 0.6) 0%, rgba(218, 22, 52, 0.2) 70%, transparent 100%);
+  z-index: 0;
+  pointer-events: none; /* Prevents interactions */
+  filter: blur(70px); /* Smoothens the glow */
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: rgba(28, 25, 43, 0.4);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+  position: relative;
+  z-index: 1; /* Ensures it sits above the glow */
 }
 
-.glow {
+.nav-glass {
+  background: rgba(18, 18, 18, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1; /* Ensures it sits above the glow */
+}
+
+.gradient-btn {
+  background: #F6D001;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.gradient-btn:hover {
+  background: #FFE03D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(246, 208, 1, 0.25);
+}
+
+/* Removed the glow from nav underline */
+.nav-link {
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.nav-link::after {
+  content: '';
   position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.2;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #DA1634; /* Red underline, no glow */
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link-active {
+  color: white;
+}
+
+.nav-link-active::after {
+  width: 100%;
+}
+
+/* Soccer Ball Styling */
+.soccer-ball-top,
+.soccer-ball-bottom {
   pointer-events: none;
-}
-
-.glow-1 {
-  background: #7B2FFE;
-  top: -100px;
-  left: -100px;
-}
-
-.glow-2 {
-  background: #2E8DFF;
-  bottom: -100px;
-  right: -100px;
-}
-
-.chart-grid line {
-  stroke: rgba(255, 255, 255, 0.1);
-}
-
-.soccer-ball {
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  opacity: 0.1;
-  animation: rotate 20s linear infinite, float 10s ease-in-out infinite;
   z-index: -1;
-  right: -100px;
-  top: 50%;
-  transform: translateY(-50%);
+  opacity: 0.75;
+  filter: sepia(100%) saturate(150%) brightness(75%);
 }
 
-@keyframes rotate {
+.soccer-ball-top {
+  animation: rotateTop 20s linear infinite;
+}
+
+.soccer-ball-bottom {
+  animation: rotateBottom 20s linear infinite;
+}
+
+@keyframes rotateTop {
   from {
-    transform: translateY(-50%) rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-    transform: translateY(-50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(-50%) translateX(0);
+@keyframes rotateBottom {
+  from {
+    transform: rotate(360deg);
   }
-  50% {
-    transform: translateY(-50%) translateX(-30px);
+  to {
+    transform: rotate(0deg);
   }
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .soccer-ball {
-    width: 300px;
-    height: 300px;
-    right: -150px;
+  .soccer-ball-top,
+  .soccer-ball-bottom {
+    width: 200px;
+    height: 200px;
   }
 }

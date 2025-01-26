@@ -7,14 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        'dark': '#0A0A0F',
-        'glass': 'rgba(255, 255, 255, 0.1)',
-        'glass-border': 'rgba(255, 255, 255, 0.05)',
+        'neon-purple': '#b624ff',
+        'neon-blue': '#246bff',
+        'dark': '#1a0b2e',
       },
-      backdropBlur: {
-        'xs': '2px',
-      }
+      animation: {
+        'spin-slow': 'spin 20s linear infinite', // Slow 20-second rotation
+      },
+      filter: {
+        sepia: 'sepia(100%)',
+        saturate: 'saturate(150%)',
+        brightness: 'brightness(75%)',
+      },
     },
   },
   plugins: [],
-}
+};
