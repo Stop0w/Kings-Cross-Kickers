@@ -2,66 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+}
+
 body {
   background: #121212;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Wrapper for the page to apply a glow in the top-left corner */
 .page-wrapper {
   position: relative;
-  overflow: hidden; /* Keeps the glow contained */
+  overflow: hidden;
+  z-index: 0;
 }
 
 .page-wrapper::before {
   content: '';
   position: absolute;
   top: -20%;
-  left: -20%; /* Glow positioned in the top-left corner */
+  left: -20%;
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(218, 22, 52, 0.6) 0%, rgba(218, 22, 52, 0.2) 70%, transparent 100%);
+  background: radial-gradient(
+    circle,
+    rgba(218, 22, 52, 0.6) 0%,
+    rgba(218, 22, 52, 0.4) 40%,
+    rgba(218, 22, 52, 0.2) 60%,
+    transparent 80%
+  );
   z-index: 0;
-  pointer-events: none; /* Prevents interactions */
-  filter: blur(70px); /* Smoothens the glow */
-}
-
-.glass-card {
-  background: rgba(28, 25, 43, 0.4);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative;
-  z-index: 1; /* Ensures it sits above the glow */
+  pointer-events: none;
+  filter: blur(120px);
 }
 
 .nav-glass {
   background: rgba(18, 18, 18, 0.8);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 1; /* Ensures it sits above the glow */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: all 0.3s ease-in-out;
 }
 
-.gradient-btn {
-  background: #F6D001;
-  color: #000000;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.gradient-btn:hover {
-  background: #FFE03D;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(246, 208, 1, 0.25);
-}
-
-/* Removed the glow from nav underline */
 .nav-link {
   position: relative;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
   transition: all 0.2s ease;
+  z-index: 51;
 }
 
 .nav-link::after {
@@ -71,7 +68,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: #DA1634; /* Red underline, no glow */
+  background: #DA1634;
   transition: width 0.2s ease;
 }
 
@@ -91,46 +88,101 @@ body {
   width: 100%;
 }
 
-/* Soccer Ball Styling */
-.soccer-ball-top,
-.soccer-ball-bottom {
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.75;
-  filter: sepia(100%) saturate(150%) brightness(75%);
+.dropdown-select {
+  @apply glass-card px-4 py-2 rounded-lg bg-[#1c1c1c] text-white min-w-[150px] border border-white/10;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem top 50%;
+  background-size: 0.65rem auto;
+}
+
+.dropdown-select option {
+  @apply bg-[#1c1c1c] text-white py-2 px-4;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gradient-btn {
+  background: #F6D001;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.gradient-btn:hover {
+  background: #FFE03D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(246, 208, 1, 0.25);
 }
 
 .soccer-ball-top {
-  animation: rotateTop 20s linear infinite;
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  width: 250px;
+  height: 250px;
+  animation: floatTop 20s linear infinite;
+  z-index: -1;
 }
 
 .soccer-ball-bottom {
-  animation: rotateBottom 20s linear infinite;
+  position: fixed;
+  bottom: 10%;
+  left: 5%;
+  width: 250px;
+  height: 250px;
+  animation: floatBottom 20s linear infinite;
+  z-index: -1;
 }
 
-@keyframes rotateTop {
-  from {
-    transform: rotate(0deg);
+@keyframes floatTop {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
   }
-  to {
-    transform: rotate(360deg);
+  25% {
+    transform: rotate(90deg) translate(50px, 50px);
+  }
+  50% {
+    transform: rotate(180deg) translate(0, 100px);
+  }
+  75% {
+    transform: rotate(270deg) translate(-50px, 50px);
+  }
+  100% {
+    transform: rotate(360deg) translate(0, 0);
   }
 }
 
-@keyframes rotateBottom {
-  from {
-    transform: rotate(360deg);
+@keyframes floatBottom {
+  0% {
+    transform: rotate(360deg) translate(0, 0);
   }
-  to {
-    transform: rotate(0deg);
+  25% {
+    transform: rotate(270deg) translate(-50px, -50px);
+  }
+  50% {
+    transform: rotate(180deg) translate(0, -100px);
+  }
+  75% {
+    transform: rotate(90deg) translate(50px, -50px);
+  }
+  100% {
+    transform: rotate(0deg) translate(0, 0);
   }
 }
 
-/* Responsive adjustments */
+.main-content {
+  padding-top: 7rem;
+}
+
 @media (max-width: 768px) {
   .soccer-ball-top,
   .soccer-ball-bottom {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
   }
 }

@@ -22,11 +22,11 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 pt-2">
             <img
-              src="https://photos.app.goo.gl/zYgfZg6ZBZiqXzrPA"
+              src="https://i.postimg.cc/kgHswN8V/KC-Logo.png"
               alt="Kings Cross Kickers Logo"
-              className="h-12"
+              className="h-24"
             />
           </Link>
 

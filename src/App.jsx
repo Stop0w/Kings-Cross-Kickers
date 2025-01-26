@@ -15,17 +15,17 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="min-h-screen flex flex-col text-white glass-effect relative overflow-x-hidden bg-[#121212]">
-            <div className="fixed top-[10%] right-[5%] transform">
+          <div className="page-wrapper min-h-screen flex flex-col text-white relative overflow-x-hidden bg-[#121212]">
+            <div className="fixed top-[10%] right-[5%] z-[5]">
               <SoccerBall className="soccer-ball-top" />
             </div>
-            <div className="fixed bottom-[10%] left-[5%] transform">
+            <div className="fixed bottom-[10%] left-[5%] z-[5]">
               <SoccerBall className="soccer-ball-bottom" />
             </div>
 
             <Navigation />
 
-            <main className="flex-grow pt-20 relative z-10">
+            <main className="flex-grow pt-20 relative z-[10]">
               <div className="max-w-7xl mx-auto px-6 py-8">
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -37,7 +37,7 @@ function App() {
               </div>
             </main>
 
-            <footer className="glass-card w-full mt-auto z-10">
+            <footer className="glass-card w-full mt-auto z-[10]">
               <div className="max-w-7xl mx-auto px-6 py-6">
                 <p className="text-center text-gray-400">
                   © 2024 Kings Cross Kickers. All rights reserved.

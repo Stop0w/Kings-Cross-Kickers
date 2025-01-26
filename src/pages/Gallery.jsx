@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Upload } from 'lucide-react';
+import { Upload, Grid, Grid3X3, LayoutGrid } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AuthModal } from '../components/AuthModal';
 import { useAuth } from '../context/AuthContext';
 
+const albumCovers = [
+  {
+    date: new Date('2024-03-02'),
+    image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    date: new Date('2024-02-24'),
+    image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    date: new Date('2024-02-17'),
+    image: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?q=80&w=800&auto=format&fit=crop'
+  }
+];
+
 export function Gallery() {
   const [filter, setFilter] = useState('all');
-  const [imageSize, setImageSize] = useState('medium');
+  const [columnCount, setColumnCount] = useState('4');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [pendingAction, setPendingAction] = useState(null);
   const navigate = useNavigate();
   const { isAuthenticated, authenticate } = useAuth();
-  
-  const dates = [
-    new Date('2024-03-02'),
-    new Date('2024-02-24'),
-    new Date('2024-02-17')
-  ];
 
   const handleAction = (action) => {
     if (!isAuthenticated) {
@@ -50,22 +59,39 @@ export function Gallery() {
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="glass-card px-4 py-2 rounded-lg bg-transparent min-w-[150px]"
+          className="dropdown-select"
         >
           <option value="all">All Photos</option>
-          {dates.map((date) => (
-            <option key={date.toISOString()} value={date.toISOString()}>
-              {format(date, 'MMMM d, yyyy')}
+          {albumCovers.map((album) => (
+            <option key={album.date.toISOString()} value={album.date.toISOString()}>
+              {format(album.date, 'MMMM d, yyyy')}
             </option>
           ))}
         </select>
 
         <select
-          value={imageSize}
-          onChange={(e) => setImageSize(e.target.value)}
-          className="glass-card px-4 py-2 rounded-lg bg-transparent min-w-[120px]"
+          value={columnCount}
+          onChange={(e) => setColumnCount(e.target.value)}
+          className="dropdown-select flex items-center"
         >
-          {/* ... size options ... */}
+          <option value="6">
+            <div className="flex items-center gap-2">
+              <Grid size={16} className="text-red-500" />
+              6 Columns
+            </div>
+          </option>
+          <option value="4">
+            <div className="flex items-center gap-2">
+              <Grid3X3 size={16} className="text-red-500" />
+              4 Columns
+            </div>
+          </option>
+          <option value="3">
+            <div className="flex items-center gap-2">
+              <LayoutGrid size={16} className="text-red-500" />
+              3 Columns
+            </div>
+          </option>
         </select>
         
         <button 
@@ -77,21 +103,29 @@ export function Gallery() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {dates.map((date) => (
+      <div className={`grid gap-6 ${
+        columnCount === '6' ? 'grid-cols-6' : 
+        columnCount === '4' ? 'grid-cols-4' : 
+        'grid-cols-3'
+      }`}>
+        {albumCovers.map((album) => (
           <div 
-            key={date.toISOString()} 
-            className="glass-card p-4 rounded-xl cursor-pointer hover:bg-white/5 transition-colors"
+            key={album.date.toISOString()} 
+            className="glass-card p-4 rounded-xl cursor-pointer hover:bg-white/5 transition-colors group"
             onClick={() => handleAction({ 
               type: 'navigate', 
-              path: `/gallery/${format(date, 'yyyy-MM-dd')}` 
+              path: `/gallery/${format(album.date, 'yyyy-MM-dd')}` 
             })}
           >
-            <div className="aspect-square bg-white/5 rounded-lg mb-2 overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-br from-[#DA1634]/20 to-transparent" />
+            <div className="aspect-square rounded-lg mb-2 overflow-hidden">
+              <img 
+                src={album.image}
+                alt={format(album.date, 'MMMM d, yyyy')}
+                className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
             <p className="text-sm text-gray-400">
-              {format(date, 'MMMM d, yyyy')}
+              {format(album.date, 'MMMM d, yyyy')}
             </p>
           </div>
         ))}
